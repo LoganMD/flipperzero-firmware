@@ -3,6 +3,7 @@
 #include <furi_hal_version.h>
 #include <furi_hal_bt.h>
 #include <furi_hal_crypto.h>
+#include <furi_hal.h>
 
 #include <interface/patterns/ble_thread/shci/shci.h>
 #include <furi.h>
@@ -266,6 +267,15 @@ void furi_hal_info_get(PropertyValueCallback out, char sep, void* context) {
     } else {
         property_value_out(&property_context, NULL, 2, "radio", "alive", "false");
     }
+
+    // Hand/UI Orientation
+    property_value_out(
+        &property_context,
+        NULL,
+        2,
+        "ui",
+        "orientation",
+        furi_hal_rtc_is_flag_set(FuriHalRtcFlagHandOrient) ? "left" : "right");
 
     property_value_out(
         &property_context, "%u", 3, "protobuf", "version", "major", PROTOBUF_MAJOR_VERSION);
